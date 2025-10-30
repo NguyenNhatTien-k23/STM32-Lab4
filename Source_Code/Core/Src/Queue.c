@@ -10,7 +10,7 @@
 void Queue_PushBack(uint8_t task_id, Queue* queue){
 	QueueNode_t* new_node = (QueueNode_t*)malloc(sizeof(QueueNode_t));
 
-	new_node->next_node = NULL;
+	new_node->next_node = 0;
 	new_node->task_id = task_id;
 
 	queue->tail->next_node = new_node;

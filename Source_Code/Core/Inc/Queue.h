@@ -8,6 +8,9 @@
 #ifndef INC_QUEUE_H_
 #define INC_QUEUE_H_
 
+#include <stdint.h>
+#include <stdlib.h>
+
 typedef struct QueueNode QueueNode_t;
 
 typedef struct QueueNode{

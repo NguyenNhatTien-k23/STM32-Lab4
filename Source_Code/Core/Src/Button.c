@@ -11,14 +11,13 @@
 #define BUTTON_STATE_RELEASE GPIO_PIN_SET
 
 Button button_list[NUMBER_OF_BUTTON] = {};
-GPIO_PinState current_pin_read;
 
 void Button_ReadInput() {
 	for (int index = 0; index < NUMBER_OF_BUTTON; ++index) {
 		uint32_t current_time = HAL_GetTick();
 
 		// Read pin first
-		current_pin_read = HAL_GPIO_ReadPin(BUTTON_GPIO_Port, BUTTON_Pin);
+		GPIO_PinState current_pin_read = HAL_GPIO_ReadPin(GPIOA, BUTTON_SWITCH_Pin << index);
 
 		// If state is stable (same as previous)
 		if (current_pin_read == button_list[index].previous_pin_read) {
@@ -31,7 +30,7 @@ void Button_ReadInput() {
 					button_list[index].internal_timer = TIME_FOR_HOLD_CHECK;
 					button_list[index].is_pressed = 1;
 				} else {
-					// Released → clear hold flag
+					// Released -> clear hold flag
 					button_list[index].is_hold = 0;
 				}
 			}
@@ -61,9 +60,11 @@ void Button_Init(){
 		button_list[index].is_pressed = 0;
 		button_list[index].is_hold = 0;
 	}
-	current_pin_read = BUTTON_STATE_RELEASE;
 
-	button_list[0].button_id = BUTTON_SINGLE;
+	button_list[BUTTON_SWITCH].button_id = BUTTON_SWITCH;
+	button_list[BUTTON_MODIFY_START].button_id = BUTTON_MODIFY_START;
+	button_list[BUTTON_SELECT_STOP].button_id = BUTTON_SELECT_STOP;
+
 }
 
 uint8_t Button_IsPressed(uint8_t button){

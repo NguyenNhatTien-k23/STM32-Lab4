@@ -11,16 +11,24 @@
 #define MAX_TASK_CAPACITY 40
 
 #include <stdint.h>
+#include <stdlib.h>
 #include "Queue.h"
 
+typedef struct TaskNode TaskNode_t;
+
 typedef struct {
-	void (* task)();
+	void (* task_function)();
 
 	uint32_t delay;
 	uint32_t period;
 
 	uint8_t task_id;
 }Task;
+
+typedef struct TaskNode{
+	Task* task;
+	TaskNode_t* next_node;
+}TaskNode_t;
 
 void Schedular_Init();
 
@@ -30,5 +38,6 @@ void Schedular_DeleteTask(uint8_t task_id);
 void Schedular_Update();
 void Schedular_Dispatch();
 
-
+void LinkedList_Add(TaskNode_t* head_node, TaskNode_t* new_node);
+TaskNode_t* LinkedList_PopHead(TaskNode_t* head_node);
 #endif /* INC_SCHEDULAR_H_ */
